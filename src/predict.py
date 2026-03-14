@@ -199,19 +199,15 @@ def predict_churn(
         "threshold": float(row["decision_threshold"]),
         "model_name": str(row["model_name"]),
         "probability_percentile": float(row["probability_percentile"]),
-        "expected_monthly_revenue_at_risk": float(
-            row["expected_monthly_revenue_at_risk"]
-        ),
-        "expected_annual_revenue_at_risk": float(
-            row["expected_annual_revenue_at_risk"]
-        ),
+        "expected_monthly_revenue_at_risk": float(row["expected_monthly_revenue_at_risk"]),
+        "expected_annual_revenue_at_risk": float(row["expected_annual_revenue_at_risk"]),
         "tenure_bucket": str(row.get("tenure_bucket", "")),
         "monthly_charge_bucket": str(row.get("monthly_charge_bucket", "")),
     }
 
 
 # ---------------------------------------------------------
-# SHAP EXPLANATION
+# SHAP EXPLANATION (FIXED VERSION)
 # ---------------------------------------------------------
 
 def get_local_explanation(
@@ -241,16 +237,15 @@ def get_local_explanation(
     background = resolved_artifact.get("shap_background")
 
     if background is None:
-        raise ValueError(
-            "SHAP background data missing in model artifact."
-        )
+        raise ValueError("SHAP background data missing in model artifact.")
 
-    # Safe SHAP calculation
     try:
 
-        explainer = shap.TreeExplainer(
-            model.get_booster(),
-            background,
+        masker = shap.maskers.Independent(background)
+
+        explainer = shap.Explainer(
+            lambda x: model.predict_proba(x)[:, 1],
+            masker,
         )
 
         shap_values = explainer(transformed_input)
