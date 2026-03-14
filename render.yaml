@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: sales-intelligence-platform
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: streamlit run app/streamlit_app.py --server.port $PORT --server.address 0.0.0.0
-    plan: free
