@@ -154,7 +154,7 @@ def get_local_explanation(
     if background is None:
         raise ValueError("SHAP background data is not available in the saved model artifact.")
 
-    explainer = shap.Explainer(resolved_artifact["model"], background)
+    explainer = shap.TreeExplainer(resolved_artifact["model"])
     shap_values = explainer(transformed_input)
     contribution_values = shap_values.values[0]
 
