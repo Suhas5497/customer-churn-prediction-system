@@ -9,3 +9,4 @@ shap
 streamlit
 xgboost
 gunicorn
+altair==4.2.2
