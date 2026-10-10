@@ -17,7 +17,7 @@ from src.predict import get_local_explanation, load_model_artifact, predict_batc
 
 st.set_page_config(
     page_title="Customer Churn Prediction System",
-    page_icon="C",
+    page_icon="📉",
     layout="wide",
 )
 
@@ -85,48 +85,62 @@ def build_template_file(preprocessing: dict[str, object]) -> bytes:
 st.markdown(
     """
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+    html, body, [class*="css"], .stApp { font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif; }
     .stApp {
         background:
-            radial-gradient(circle at top right, rgba(4, 120, 87, 0.12), transparent 28%),
-            linear-gradient(180deg, #f5f7f2 0%, #eef3ec 100%);
+            radial-gradient(1100px 520px at 100% -8%, rgba(201, 169, 110, 0.10), transparent 60%),
+            radial-gradient(900px 480px at -10% 105%, rgba(70, 96, 180, 0.14), transparent 60%),
+            #0a0e1a;
     }
-    .hero-card, .panel-card {
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(15, 23, 42, 0.08);
-        border-radius: 18px;
-        padding: 1.2rem 1.4rem;
-        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.07);
+    [data-testid="stHeader"] { background: transparent; }
+    h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif !important; font-weight: 500 !important; color: #e8e6e1 !important; letter-spacing: 0.2px; }
+    .block-container { padding-top: 2.2rem; }
+    .mg-hero {
+        position: relative; overflow: hidden;
+        background: linear-gradient(135deg, #141a2c 0%, #0d1220 60%);
+        border: 1px solid #1d2438; border-radius: 18px;
+        padding: 1.6rem 1.9rem 1.5rem; margin-bottom: 1.4rem;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
     }
-    .hero-title {
-        font-size: 2.1rem;
-        font-weight: 700;
-        margin-bottom: 0.25rem;
-        color: #0f172a;
+    .mg-hero::before { content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 2px; background: linear-gradient(90deg, #c9a96e, rgba(201, 169, 110, 0)); }
+    .mg-kicker { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; color: #c9a96e; text-transform: uppercase; }
+    .mg-kicker span { color: #8a8d99; font-weight: 600; }
+    .mg-title { font-family: 'Playfair Display', Georgia, serif; font-size: 2.35rem; line-height: 1.15; color: #e8e6e1; margin: 0.55rem 0 0.4rem; }
+    .mg-title em { color: #c9a96e; font-style: normal; }
+    .mg-copy { color: #a7a9b4; font-size: 1rem; max-width: 760px; margin: 0; }
+    .mg-chips { margin-top: 0.95rem; display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .mg-chips span { font-size: 0.78rem; color: #d6d4cf; background: #111729; border: 1px solid #232b42; border-radius: 999px; padding: 0.25rem 0.75rem; }
+    [data-testid="stMetric"] {
+        background: linear-gradient(135deg, #141a2c, #0d1220);
+        border: 1px solid #1d2438; border-radius: 14px; padding: 0.9rem 1.1rem;
     }
-    .hero-copy {
-        color: #334155;
-        font-size: 1rem;
-        margin-bottom: 0;
+    [data-testid="stMetricLabel"] p, [data-testid="stMetricLabel"] div { color: #8a8d99 !important; text-transform: uppercase; letter-spacing: 1.1px; font-size: 0.72rem !important; }
+    [data-testid="stMetricValue"] { color: #c9a96e !important; font-family: 'Playfair Display', Georgia, serif; }
+    .stTabs [data-baseweb="tab-list"] { gap: 1.2rem; border-bottom: 1px solid #1d2438; }
+    .stTabs [data-baseweb="tab"] { color: #a7a9b4; font-weight: 600; }
+    .stTabs [aria-selected="true"] { color: #c9a96e !important; }
+    .stTabs [data-baseweb="tab-highlight"] { background-color: #c9a96e !important; }
+    [data-testid="stSidebar"] { background: #0b1020; border-right: 1px solid #1d2438; }
+    .stButton > button, .stDownloadButton > button, [data-testid="stFormSubmitButton"] > button {
+        background: #c9a96e; color: #0a0e1a; border: 1px solid #c9a96e; border-radius: 10px; font-weight: 700;
     }
-    .risk-badge {
-        display: inline-block;
-        padding: 0.35rem 0.75rem;
-        border-radius: 999px;
-        font-weight: 700;
-        font-size: 0.9rem;
+    .stButton > button:hover, .stDownloadButton > button:hover, [data-testid="stFormSubmitButton"] > button:hover {
+        background: #d8bc86; border-color: #d8bc86; color: #0a0e1a;
     }
-    .risk-low {
-        color: #166534;
-        background: #dcfce7;
-    }
-    .risk-medium {
-        color: #92400e;
-        background: #fef3c7;
-    }
-    .risk-high {
-        color: #991b1b;
-        background: #fee2e2;
-    }
+    .stButton > button *, .stDownloadButton > button *, [data-testid="stFormSubmitButton"] > button *,
+    button[kind="secondaryFormSubmit"] *, button[kind="primaryFormSubmit"] * { color: #0a0e1a !important; }
+    button[kind="secondaryFormSubmit"], button[kind="primaryFormSubmit"] { background: #c9a96e !important; border-color: #c9a96e !important; border-radius: 10px; }
+    [data-testid="stDataFrame"], [data-testid="stExpander"] { border: 1px solid #1d2438; border-radius: 12px; overflow: hidden; }
+    [data-testid="stExpander"] { background: #0d1220; }
+    hr { border-color: #1d2438 !important; }
+    code { color: #c9a96e !important; background: #111729 !important; }
+    .mg-footer { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid #1d2438; color: #8a8d99; font-size: 0.82rem; text-align: center; }
+    .mg-footer a { color: #c9a96e; text-decoration: none; }
+    .risk-badge { display: inline-block; padding: 0.35rem 0.8rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.3px; }
+    .risk-low { color: #6fdd8b; background: rgba(46, 160, 67, 0.15); border: 1px solid rgba(46, 160, 67, 0.45); }
+    .risk-medium { color: #e3b341; background: rgba(227, 179, 65, 0.12); border: 1px solid rgba(227, 179, 65, 0.45); }
+    .risk-high { color: #ff7b72; background: rgba(229, 83, 75, 0.14); border: 1px solid rgba(229, 83, 75, 0.45); }
     </style>
     """,
     unsafe_allow_html=True,
@@ -151,12 +165,11 @@ portfolio_summary = artifact.get("portfolio_summary", {})
 
 st.markdown(
     """
-    <div class="hero-card">
-        <div class="hero-title">Customer Churn Prediction System</div>
-        <p class="hero-copy">
-            Analyst-ready churn intelligence dashboard with portfolio scoring, revenue-at-risk estimates,
-            segment benchmarking, and model explainability.
-        </p>
+    <div class="mg-hero">
+        <div class="mg-kicker">Machine Learning · Retention<span>Suhas Dhamapurkar</span></div>
+        <div class="mg-title">Customer Churn <em>Prediction</em></div>
+        <p class="mg-copy">Score a customer or a whole portfolio, see who is likely to leave and why (SHAP), and how much revenue is at risk — powered by an XGBoost model with 0.84 ROC-AUC.</p>
+        <div class="mg-chips"><span>XGBoost</span><span>SHAP explainability</span><span>Revenue at risk</span><span>Batch scoring</span></div>
     </div>
     """,
     unsafe_allow_html=True,
@@ -165,7 +178,6 @@ st.markdown(
 sidebar_col, main_col = st.columns([0.95, 2.05], gap="large")
 
 with sidebar_col:
-    st.markdown('<div class="panel-card">', unsafe_allow_html=True)
     st.subheader("Model Snapshot")
     st.write(f"Selected model: `{artifact['model_name']}`")
     st.write(f"Decision threshold: `{artifact['decision_threshold']:.2f}`")
@@ -191,7 +203,6 @@ with sidebar_col:
         st.dataframe(shap_importance_df.head(8), hide_index=True, use_container_width=True)
     elif not feature_importance_df.empty:
         st.dataframe(feature_importance_df.head(8), hide_index=True, use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True)
 
 with main_col:
     tab_single, tab_batch, tab_insights = st.tabs(
@@ -199,7 +210,6 @@ with main_col:
     )
 
     with tab_single:
-        st.markdown('<div class="panel-card">', unsafe_allow_html=True)
         st.subheader("Score a Customer")
         st.caption(
             "Use this workflow for individual retention decisions. Core commercial and service inputs are surfaced directly, with the full raw schema available in the advanced panel."
@@ -326,7 +336,6 @@ with main_col:
 
             submitted = st.form_submit_button("Predict churn risk", use_container_width=True)
 
-        st.markdown("</div>", unsafe_allow_html=True)
 
         if submitted:
             prediction = predict_churn(input_payload, artifact=artifact, strict=True)
@@ -357,7 +366,6 @@ with main_col:
             result_col, explain_col = st.columns([1.15, 1], gap="large")
 
             with result_col:
-                st.markdown('<div class="panel-card">', unsafe_allow_html=True)
                 st.subheader("Prediction Result")
                 st.markdown(risk_badge_html(prediction["risk_segment"]), unsafe_allow_html=True)
                 st.write(
@@ -380,15 +388,14 @@ with main_col:
                     st.write(
                         f"- Internet service `{input_payload['InternetService']}`: actual churn rate `{internet_benchmark['actual_churn_rate']:.1%}`, high-risk share `{internet_benchmark['high_risk_rate']:.1%}`."
                     )
-                st.markdown("</div>", unsafe_allow_html=True)
 
             with explain_col:
-                st.markdown('<div class="panel-card">', unsafe_allow_html=True)
                 st.subheader("Local Explanation")
                 st.caption("SHAP contributions for this customer prediction.")
                 st.bar_chart(
                     local_explanation.set_index("display_feature")["shap_value"],
                     use_container_width=True,
+                    color="#c9a96e",
                 )
                 if not positive_drivers.empty:
                     st.write("Drivers increasing risk")
@@ -404,10 +411,8 @@ with main_col:
                         hide_index=True,
                         use_container_width=True,
                     )
-                st.markdown("</div>", unsafe_allow_html=True)
 
     with tab_batch:
-        st.markdown('<div class="panel-card">', unsafe_allow_html=True)
         st.subheader("Batch Portfolio Scoring")
         st.caption(
             "Upload a CSV with raw customer columns to score an entire portfolio. Missing optional fields will be filled from the training-data defaults."
@@ -449,7 +454,7 @@ with main_col:
 
             with chart_col:
                 st.write("Risk distribution")
-                st.bar_chart(risk_counts, use_container_width=True)
+                st.bar_chart(risk_counts, use_container_width=True, color="#c9a96e")
 
             with preview_col:
                 st.write("Highest-risk customers")
@@ -485,10 +490,8 @@ with main_col:
                 hide_index=True,
                 use_container_width=True,
             )
-        st.markdown("</div>", unsafe_allow_html=True)
 
     with tab_insights:
-        st.markdown('<div class="panel-card">', unsafe_allow_html=True)
         st.subheader("Portfolio Insights")
         st.caption("Analyst-oriented segment views from the scored reference population.")
 
@@ -532,10 +535,23 @@ with main_col:
                 st.bar_chart(
                     chart_source.head(10).set_index("feature")["importance"],
                     use_container_width=True,
+                    color="#c9a96e",
                 )
 
         st.write("Business interpretation")
         st.write("- Target month-to-month and fiber-optic customers with pricing and contract offers.")
         st.write("- Use expected revenue at risk to prioritize outreach queues, not only probability.")
         st.write("- High churn probability combined with electronic check and missing tech support is a strong intervention segment.")
-        st.markdown("</div>", unsafe_allow_html=True)
+
+
+st.markdown(
+    """
+    <div class="mg-footer">
+        Built by <a href="https://github.com/Suhas5497">Suhas Dhamapurkar</a> — Data Analyst &amp; AI/ML Engineer
+        · <a href="https://github.com/Suhas5497/customer-churn-prediction-system">Source code</a>
+        · <a href="https://linkedin.com/in/suhas-1710d">LinkedIn</a>
+        · <a href="https://resilytics.in">Resilytics</a>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
