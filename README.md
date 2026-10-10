@@ -1,6 +1,20 @@
-# Customer Churn Prediction System
+<div align="center">
 
-End-to-end telecom churn analytics and machine learning system built with Python, Scikit-learn, XGBoost, SHAP, and Streamlit.
+<img src="assets/banner.svg" width="100%" alt="Customer Churn Prediction System — 0.84 ROC-AUC, 88% churn recall, $2.5M annual revenue at risk.">
+
+<img src="https://img.shields.io/badge/Python-0a0e1a?style=for-the-badge&logo=python&logoColor=c9a96e" alt="Python">
+<img src="https://img.shields.io/badge/XGBoost-0a0e1a?style=for-the-badge" alt="XGBoost">
+<img src="https://img.shields.io/badge/scikit--learn-0a0e1a?style=for-the-badge&logo=scikitlearn&logoColor=c9a96e" alt="scikit-learn">
+<img src="https://img.shields.io/badge/SHAP-0a0e1a?style=for-the-badge" alt="SHAP">
+<img src="https://img.shields.io/badge/Streamlit-0a0e1a?style=for-the-badge&logo=streamlit&logoColor=c9a96e" alt="Streamlit">
+
+</div>
+
+> **In one line:** an XGBoost model that ranks telecom customers by churn risk, explains each prediction with SHAP, and turns the scores into revenue at risk, all inside a Streamlit app for single-customer and batch scoring.
+
+<div align="center">
+<img src="reports/figures/streamlit_dashboard_preview.png" width="90%" alt="Streamlit churn dashboard">
+</div>
 
 ## Executive Summary
 
@@ -270,10 +284,6 @@ The dashboard supports:
 - batch CSV scoring for a customer portfolio
 - downloadable scored output for analyst workflows
 
-Dashboard preview:
-
-![Dashboard Preview](reports/figures/streamlit_dashboard_preview.png)
-
 ## Source Modules
 
 - [src/preprocessing.py](src/preprocessing.py): data cleaning, preprocessing artifacts, schema validation
@@ -313,9 +323,9 @@ If `streamlit` is not on your PATH:
 python -m streamlit run app/streamlit_app.py
 ```
 
-## Why This Project Is Stronger Now
+## What This Project Demonstrates
 
-Compared with a typical beginner churn project, this repository now demonstrates:
+Beyond a standard churn classifier, this repository demonstrates:
 
 - analyst-style segment KPI thinking
 - revenue-at-risk prioritization
@@ -325,4 +335,10 @@ Compared with a typical beginner churn project, this repository now demonstrates
 - batch scoring for practical workflow use
 - cleaner separation between training, inference, and presentation layers
 
-That makes it materially stronger for fresher Data Analyst and Data Scientist portfolios.
+
+---
+
+<div align="center">
+<sub>Built by <a href="https://github.com/Suhas5497"><b>Suhas Dhamapurkar</b></a> — Data Analyst &amp; AI/ML Engineer · Founder of <a href="https://resilytics.in">Resilytics</a><br>
+<a href="https://linkedin.com/in/suhas-1710d">LinkedIn</a> · <a href="https://portfolio-git-main-suhasdhamapurkar1710-gmailcoms-projects.vercel.app/">Portfolio</a> · <a href="mailto:suhasdhamapurkar1710@gmail.com">Email</a></sub>
+</div>
