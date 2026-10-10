@@ -8,6 +8,9 @@
 <img src="https://img.shields.io/badge/SHAP-0a0e1a?style=for-the-badge" alt="SHAP">
 <img src="https://img.shields.io/badge/Streamlit-0a0e1a?style=for-the-badge&logo=streamlit&logoColor=c9a96e" alt="Streamlit">
 
+
+<a href="https://customer-churn-prediction-system-oneq3amaedjugshgt599ip.streamlit.app/"><img src="assets/live-demo.svg" height="44" alt="Open the live app"></a>
+
 </div>
 
 > **In one line:** an XGBoost model that ranks telecom customers by churn risk, explains each prediction with SHAP, and turns the scores into revenue at risk, all inside a Streamlit app for single-customer and batch scoring.
